@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyscd",                     # This is the name of the package
-    version="1.0",                        # The initial release version
+    version="1.0.2",                        
     author="Ankan Mukherjee",                     # Full name of the author
     description="This is a package that allows you to implement a change data capture using SCD type 2",
     long_description="This is a package that allows you to implement a change data capture using SCD type 2",      
@@ -18,7 +18,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],                                      # Information to filter the project on PyPi website
     python_requires='>=3.6',                # Minimum version requirement of the package
-    py_modules=["quicksample"],             # Name of the python package
+    py_modules=["pyscd"],             # Name of the python package
     package_dir={'':'pyscd/src'},     # Directory of the source code of the package
     install_requires=[]                     # Install other dependencies if any
 )
