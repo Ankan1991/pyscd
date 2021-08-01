@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyscd",                     # This is the name of the package
-    version="1.0",                        # The initial release version
+    version="1.0.1",                        # The initial release version
     author="Ankan Mukherjee",                     # Full name of the author
     description="This is a package that allows you to implement a change data capture using SCD type 2",
     long_description="This is a package that allows you to implement a change data capture using SCD type 2",      
