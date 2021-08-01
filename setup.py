@@ -5,15 +5,15 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyscd",                     # This is the name of the package
-    version="0.0.1",                        # The initial release version
+    version="1.0.0",                        # The initial release version
     author="Ankan Mukherjee",                     # Full name of the author
     description="This is a package that allows you to implement a change data capture using SCD type 2",
     long_description="This is a package that allows you to implement a change data capture using SCD type 2",      
     long_description_content_type="text/markdown",
-    url = "https://github.com/Ankan1991/pyscd",
+    url = "https://github.com/Ankan1991/pyscd/tree/master",
     packages=setuptools.find_packages(),    # List of all python modules to be installed
     classifiers=[
-        "Programming Language :: Python :: 3+",
+        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],                                      # Information to filter the project on PyPi website
