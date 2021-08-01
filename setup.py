@@ -5,11 +5,11 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyscd",                     
-    version="1.0.3",                        
+    version="1.0.4",                        
     author="Ankan Mukherjee", 
     author_email= "ankanmukherjee6@gmail.com",
-    description="This is a package that allows you to implement a change data capture using SCD type 2",
-    long_description="This is a package that allows you to implement a change data capture using SCD type 2",      
+    description="This is a package that allows you to implement a change data capture using SCD type 2 in Pyspark",
+    long_description="This is a package that allows you to implement a change data capture using SCD type 2 in Pyspark",      
     long_description_content_type="text/markdown",
     url = "https://github.com/Ankan1991/pyscd",
     packages=setuptools.find_packages(),    # List of all python modules to be installed
