@@ -65,8 +65,8 @@ def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$']):
   updates ={"cleansed.active_ind": F.lit('N'), "cleansed.cdc_flag": F.lit('U'), 
           "cleansed.cdc_END_ts": F.to_timestamp(F.current_timestamp(), 'yyyy-MM-dd HH:mm:ss')}
   upsert_merge_condition = " and ".join([f"cleansed.{a} = staged.{b}" 
-                                    for a,b in zip(primary_keys,
-                                    [f"mergekey{i}" for i in range(1,len(primary_keys)+1)])])
+                                    for a,b in zip(keys,
+                                    [f"mergekey{i}" for i in range(1,len(keys)+1)])])
   (cleansed.alias("cleansed").merge(staged_updates.alias("staged"),
                 upsert_merge_condition)
                 .whenMatchedUpdate(condition = "cleansed.active_ind = 'Y' AND cleansed.objversion <> staged.objversion ",                                    set=updates)
