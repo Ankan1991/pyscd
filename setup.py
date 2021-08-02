@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyscd",                     
-    version="1.0.7",                        
+    version="1.0.5",                        
     author="Ankan Mukherjee", 
     author_email= "ankanmukherjee6@gmail.com",
     description="This is a package that allows you to implement a change data capture using SCD type 2 in Pyspark",
