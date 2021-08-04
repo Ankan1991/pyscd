@@ -28,7 +28,8 @@ One does not have to write logics for each table seperately. Just import this pa
 # Example Usage
 
 
-```from delta.tables import DeltaTable #import Deltatable
+```
+from delta.tables import DeltaTable #import Deltatable
 path_to_cleansed_layer = '/mnt/mycleansedlayer/data/CLEANSED_TABLE' #define the path to the cleansed layer of the table
 df_raw = spark.read.table("raw_schema.RAW_TABLE") #read the raw table
 df_cleansed = DeltaTable.forPath(spark, path_to_cleansed_layer) #read cleansed table as Delta table
