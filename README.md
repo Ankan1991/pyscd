@@ -9,13 +9,13 @@ One does not have to write logics for each table seperately. Just import this pa
 
 
  ```
- ,CDC_FLAG                            STRING -- This Flag indicates whether the current row is a New Insert ("I") or an update ("U") or deleted ("D")
+ ,CDC_FLAG                           STRING -- This Flag indicates whether the current row is a New Insert ("I") or an update ("U") or deleted ("D")
  
 ,CDC_START_TS                        TIMESTAMP
 
-,CDC_END_TS                           TIMESTAMP
+,CDC_END_TS                          TIMESTAMP
 
-,ACTIVE_IND                             STRING -- This Flag determines the latest value. If the value is "Y" , consider it as the latest record else "N"
+,ACTIVE_IND                          STRING -- This Flag determines the latest value. If the value is "Y" , consider it as the latest record else "N"
 ```
 
 
