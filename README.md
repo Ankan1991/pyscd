@@ -5,6 +5,20 @@ The package will he helpful incase one have large tables and high number of prim
 
 One does not have to write logics for each table seperately. Just import this package and follow the usage given below and one should be good.
 
+**Note that your DDL statement for the cleansed table should have 4 audit columns shown below**
+
+
+ ```
+ ,CDC_FLAG                            STRING
+ 
+,CDC_START_TS                        TIMESTAMP
+
+,CDC_END_TS                           TIMESTAMP
+
+,ACTIVE_IND                             STRING
+```
+
+
 
 
 # Installation
