@@ -9,11 +9,12 @@ def handle_special_chars_in_cols(columns,chars):
   
   
 
-def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'] ):
+def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'],hashkeyColumn ='objversion' ):
   """
   raw: Raw Dataframe (Spark DataFrame)
   cleansed : Cleansed Delta Table (Not spark DataFrame)
   keys : Primary Keys to join
+  columnspecialchars : list of special characters in columns you want to handle . Default value is ['$']
   
   """
   cleansed_df = cleansed.toDF()
@@ -34,12 +35,12 @@ def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'] ):
              .whenMatchedUpdate(set=update).execute())
              
 
-def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$']):
+def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$'],hashkeyColumn ='objversion'):
   """
   raw: Raw Dataframe (Spark DataFrame)
   cleansed : Cleansed Delta Table (Not spark DataFrame)
   keys : Primary Keys to join
-  columnspecialchars : list of special characters in columns you want to handle . Default value is $
+  columnspecialchars : list of special characters in columns you want to handle . Default value is ['$']
   """
   cleansed_df = cleansed.toDF()
   keys = handle_special_chars_in_cols(keys ,columnspecialchars)
@@ -48,7 +49,7 @@ def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$']):
   raw.select("*",*[F.lit(None).alias(a) for a in merge_keys]).alias("raw").join(
   cleansed_df.alias("cleansed"),
   on = [F.col(f"raw.{a}")==F.col(f"cleansed.{a}") for a in keys], how='inner').select("raw.*")
-  .where("cleansed.active_ind == 'Y' AND raw.objversion <> cleansed.objversion ")
+  .where(f"cleansed.active_ind == 'Y' AND raw.{hashkeyColumn} <> cleansed.{hashkeyColumn} ")
   )
   cleansed_columns = cleansed_df.columns
   #list the hardcoded columns (with alias here) which is to be inserted when merging
@@ -69,9 +70,6 @@ def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$']):
                                     [f"mergekey{i}" for i in range(1,len(keys)+1)])])
   (cleansed.alias("cleansed").merge(staged_updates.alias("staged"),
                 upsert_merge_condition)
-                .whenMatchedUpdate(condition = "cleansed.active_ind = 'Y' AND cleansed.objversion <> staged.objversion ",                                    set=updates)
+                .whenMatchedUpdate(condition = f"cleansed.active_ind = 'Y' AND cleansed.{hashkeyColumn} <> staged.{hashkeyColumn} ",                                    set=updates)
                 .whenNotMatchedInsert(values = inserts)
                 .execute())
-
-
-
