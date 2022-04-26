@@ -15,6 +15,7 @@ def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'],hashkeyCo
   cleansed : Cleansed Delta Table (Not spark DataFrame)
   keys : Primary Keys to join
   columnspecialchars : list of special characters in columns you want to handle . Default value is ['$']
+  hashkeyColumn: Name of the hash column used as a reference for merge
   
   """
   cleansed_df = cleansed.toDF()
@@ -41,6 +42,8 @@ def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$'],hashkeyColum
   cleansed : Cleansed Delta Table (Not spark DataFrame)
   keys : Primary Keys to join
   columnspecialchars : list of special characters in columns you want to handle . Default value is ['$']
+  hashkeyColumn: Name of the hash column used as a reference for merge
+
   """
   cleansed_df = cleansed.toDF()
   keys = handle_special_chars_in_cols(keys ,columnspecialchars)
