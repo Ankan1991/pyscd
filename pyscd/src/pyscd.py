@@ -9,13 +9,13 @@ def handle_special_chars_in_cols(columns,chars):
   
   
 
-def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'],hashkeyColumn ='objversion' ):
+def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'],hash_column_name ='objversion' ):
   """
-  raw: Raw Dataframe (Spark DataFrame)
-  cleansed : Cleansed Delta Table (Not spark DataFrame)
+  raw: Raw or bronze Dataframe (Spark DataFrame)
+  cleansed : Cleansed or Silver Delta Table (Not spark DataFrame)
   keys : Primary Keys to join
   columnspecialchars : list of special characters in columns you want to handle . Default value is ['$']
-  hashkeyColumn: Name of the hash column used as a reference for merge
+  hash_column_name: Name of the hash key column for all columns that needs to be compared for merge
   
   """
   cleansed_df = cleansed.toDF()
@@ -36,13 +36,13 @@ def update_del_records(raw, cleansed, keys ,columnspecialchars = ['$'],hashkeyCo
              .whenMatchedUpdate(set=update).execute())
              
 
-def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$'],hashkeyColumn ='objversion'):
+def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$'],hash_column_name ='objversion'):
   """
   raw: Raw Dataframe (Spark DataFrame)
   cleansed : Cleansed Delta Table (Not spark DataFrame)
   keys : Primary Keys to join
   columnspecialchars : list of special characters in columns you want to handle . Default value is ['$']
-  hashkeyColumn: Name of the hash column used as a reference for merge
+  hash_column_name: Name of the hash key column for all columns that needs to be compared for merge
 
   """
   cleansed_df = cleansed.toDF()
@@ -52,7 +52,7 @@ def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$'],hashkeyColum
   raw.select("*",*[F.lit(None).alias(a) for a in merge_keys]).alias("raw").join(
   cleansed_df.alias("cleansed"),
   on = [F.col(f"raw.{a}")==F.col(f"cleansed.{a}") for a in keys], how='inner').select("raw.*")
-  .where(f"cleansed.active_ind == 'Y' AND raw.{hashkeyColumn} <> cleansed.{hashkeyColumn} ")
+  .where(f"cleansed.active_ind == 'Y' AND raw.{hash_column_name} <> cleansed.{hash_column_name} ")
   )
   cleansed_columns = cleansed_df.columns
   #list the hardcoded columns (with alias here) which is to be inserted when merging
@@ -73,6 +73,6 @@ def upsert_from_source(raw,cleansed,keys,columnspecialchars = ['$'],hashkeyColum
                                     [f"mergekey{i}" for i in range(1,len(keys)+1)])])
   (cleansed.alias("cleansed").merge(staged_updates.alias("staged"),
                 upsert_merge_condition)
-                .whenMatchedUpdate(condition = f"cleansed.active_ind = 'Y' AND cleansed.{hashkeyColumn} <> staged.{hashkeyColumn} ",                                    set=updates)
+                .whenMatchedUpdate(condition = f"cleansed.active_ind = 'Y' AND cleansed.{hash_column_name} <> staged.{hash_column_name} ",set=updates)
                 .whenNotMatchedInsert(values = inserts)
                 .execute())
