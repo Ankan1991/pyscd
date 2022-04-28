@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyscd",                     
-    version="1.0.6",                        
+    version="1.0.7",                        
     author="Ankan Mukherjee", 
     author_email= "ankanmukherjee6@gmail.com",
     description="This is a package that allows you to implement a change data capture using SCD type 2 in Pyspark",
@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),    # List of all python modules to be installed
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],                                      # Information to filter the project on PyPi website
     python_requires='>=3.6',                # Minimum version requirement of the package
