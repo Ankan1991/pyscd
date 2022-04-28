@@ -39,6 +39,6 @@ primary_keys =['KEY1','KEY2',..]
 ----------------------------------------------------------------------------------------------------------------------   
 import pyscd as CDC
 ----------------------------------------------------------------------------------------------------------------------
-CDC.update_del_records(df_raw,df_cleansed,primary_keys) #updates deleted records
+CDC.update_del_records(df_raw,df_cleansed,primary_keys,hash_column_name='objversion') #updates deleted records
 ----------------------------------------------------------------------------------------------------------------------
-CDC.upsert_from_source(df_raw,df_cleansed,primary_keys) #updates inserted and updated records with merge
+CDC.upsert_from_source(df_raw,df_cleansed,primary_keys,hash_column_name='objversion') #updates inserted and updated records with merge
